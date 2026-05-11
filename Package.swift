@@ -28,7 +28,7 @@ let package = Package(
                 .product(name: "FileKit", package: "FileKit"),
             ],
             resources: [
-                .process("Resources")
+                .process("Resources"),
             ]
         ),
     ],
