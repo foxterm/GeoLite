@@ -6,7 +6,7 @@ let package = Package(
     name: "GeoLite",
     platforms: [
         .macOS(.v14),
-        .iOS(.v17),
+        .iOS(.v16),
     ],
     products: [
         .library(name: "GeoLite2", targets: ["GeoLite2"]),
