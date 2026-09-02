@@ -13,7 +13,7 @@ let package = Package(
         .library(name: "libmaxminddb", targets: ["libmaxminddb"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nvzqz/FileKit.git", .upToNextMinor(from: "6.1.0")),
+        //.package(url: "https://github.com/nvzqz/FileKit.git", .upToNextMinor(from: "6.1.0")),
     ],
     targets: [
         .target(
