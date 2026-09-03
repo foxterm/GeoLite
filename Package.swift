@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/nvzqz/FileKit.git", .upToNextMinor(from: "6.1.0")),
+        .package(url: "https://github.com/foxterm/SSH.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -23,6 +24,7 @@ let package = Package(
             name: "GeoLite2",
             dependencies: [
                 .target(name: "libmaxminddb"),
+                .product(name: "Extension", package: "SSH"),
                 .product(name: "FileKit", package: "FileKit"),
             ],
             resources: [
