@@ -9,28 +9,28 @@ let package = Package(
         .iOS(.v16),
     ],
     products: [
-        .library(name: "GeoLite2", targets: ["GeoLite2"]),
+        //.library(name: "GeoLite2", targets: ["GeoLite2"]),
         .library(name: "libmaxminddb", targets: ["libmaxminddb"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/nvzqz/FileKit.git", .upToNextMinor(from: "6.1.0")),
-        .package(url: "https://github.com/foxterm/SSH.git", branch: "main"),
+        // .package(url: "https://github.com/nvzqz/FileKit.git", .upToNextMinor(from: "6.1.0")),
+        // .package(url: "https://github.com/foxterm/SSH.git", branch: "main"),
     ],
     targets: [
         .target(
             name: "libmaxminddb"
         ),
-        .target(
-            name: "GeoLite2",
-            dependencies: [
-                .target(name: "libmaxminddb"),
-                .product(name: "Extension", package: "SSH"),
-                .product(name: "FileKit", package: "FileKit"),
-            ],
-            resources: [
-                .process("Resources"),
-            ]
-        ),
+        // .target(
+        //     name: "GeoLite2",
+        //     dependencies: [
+        //         .target(name: "libmaxminddb"),
+        //         .product(name: "Extension", package: "SSH"),
+        //         .product(name: "FileKit", package: "FileKit"),
+        //     ],
+        //     resources: [
+        //         .process("Resources"),
+        //     ]
+        // ),
     ],
     swiftLanguageVersions: [.v5]
 )
