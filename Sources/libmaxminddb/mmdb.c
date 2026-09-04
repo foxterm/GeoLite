@@ -56,47 +56,35 @@ void mmdb_close(MMDB_s *db) {
  * the returned string.
  */
 char *mmdb_lookup_iso_code(MMDB_s *db, const char *ip) {
-  if (!db) {
+  if (!db || !ip) {
     return NULL;
   }
+
   int gai_error, mmdb_error;
   MMDB_lookup_result_s result =
       MMDB_lookup_string(db, ip, &gai_error, &mmdb_error);
-  if (MMDB_SUCCESS != gai_error || MMDB_SUCCESS != mmdb_error) {
-    goto end;
+
+  if (gai_error != MMDB_SUCCESS || mmdb_error != MMDB_SUCCESS ||
+      !result.found_entry) {
+    return NULL;
   }
+
+  const char *paths[3][2] = {{"country", "iso_code"},
+                             {"represented_country", "iso_code"},
+                             {"registered_country", "iso_code"}};
+
   MMDB_entry_data_s iso_code;
-  char *isoCode = NULL;
-  int status;
 
-  const char *paths[4][2] = {{"country", "iso_code"},
-                            {"represented_country", "iso_code"},
-                            {"registered_country", "iso_code"},
-                            {NULL, NULL}};
+  for (int i = 0; i < 3; i++) {
+    int status = MMDB_get_value(&result.entry, &iso_code, paths[i][0],
+                                paths[i][1], NULL);
 
-  for (int i = 0; i < 4; i++) {
-    status = MMDB_get_value(&result.entry, &iso_code, paths[i][0], paths[i][1],
-                            NULL);
-    if (status != MMDB_SUCCESS || iso_code.type != MMDB_DATA_TYPE_UTF8_STRING) {
-      continue;
+    if (status == MMDB_SUCCESS && iso_code.has_data &&
+        iso_code.type == MMDB_DATA_TYPE_UTF8_STRING) {
+      return mmdb_strndup(iso_code.utf8_string, iso_code.data_size);
     }
-    goto ok;
   }
 
-  goto end;
-ok:
-  if (!iso_code.has_data || iso_code.type != MMDB_DATA_TYPE_UTF8_STRING) {
-    goto end;
-  }
-  isoCode = mmdb_strndup(iso_code.utf8_string, iso_code.data_size);
-
-  if (!isoCode) {
-    goto end;
-  }
-
-  return isoCode;
-
-end:
   return NULL;
 }
 
